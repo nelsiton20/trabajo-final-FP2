@@ -1,7 +1,7 @@
 from app.models.sistema_inventario import SistemaInventario
 from app.models.proveedor import Proveedor
 from app.models.insumo import Insumo
-
+#Lado de Inicializacion del programa GCZ
 def app():
     sistema = SistemaInventario(11)
 
