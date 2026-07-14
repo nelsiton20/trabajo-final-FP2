@@ -94,3 +94,13 @@ class SistemaInventario:
         for insumo in self.__insumos:
             if insumo.get_stock() <= self.__stock_minimo:
                 print(insumo)
+
+    def mostrar_valor_inventario(self):
+        valor_total = 0
+
+        for insumo in self.__insumos:
+            valor_total += insumo.get_stock() * insumo.get_precio()
+        
+        print('----------------------')
+        print(f'El valor total del inventario es: {valor_total}')
+        print('----------------------')
