@@ -1,6 +1,8 @@
 from app.models.sistema_inventario import SistemaInventario
 from app.models.proveedor import Proveedor
 from app.models.insumo import Insumo
+from app.domain.exceptions import DomainError
+
 #Lado de Inicializacion del programa GCZ
 def app():
     sistema = SistemaInventario(11)
@@ -59,31 +61,37 @@ def app():
             sistema.listar_movimientos()
         
         elif opcion == 6:
-            codigo_insumo = input('Ingrese código del insumo: ')
-            
-            if sistema.producto_esta_registrado(codigo_insumo):
-                print('El insumo ya está registrado')
-                continue
+            try:
+                codigo_insumo = input('Ingrese código del insumo: ')
+                
+                sistema.producto_esta_registrado(codigo_insumo)
 
-            nombre_insumo = input('Ingresa nombre del insumo: ')
-            unidad_insumo = input('Ingrese unidad del insumo: ')
-            stock_insumo = input('Ingrese el stock del insumo: ')
+                nombre_insumo = input('Ingresa nombre del insumo: ')
+                unidad_insumo = input('Ingrese unidad del insumo: ')
+                stock_insumo = input('Ingrese el stock del insumo: ')
 
-            sistema.agregar_insumo(Insumo(codigo_insumo, nombre_insumo, unidad_insumo, stock_insumo))
-            print('Producto creado y agregado al inventario')
+                sistema.agregar_insumo(Insumo(codigo_insumo, nombre_insumo, unidad_insumo, stock_insumo))
+                print('Producto creado y agregado al inventario')
+            except DomainError as e:
+                print('-------------------')
+                print(e)
+                print('-------------------')
 
         elif opcion == 7:
-            codigo_proveedor = input('Ingrese el código del proveedor: ')
+            try:
+                codigo_proveedor = input('Ingrese el código del proveedor: ')
 
-            if sistema.proveedor_esta_registrado(codigo_proveedor):
-                print('El proveedor ya se encuentra registrado')    
-                continue
+                sistema.proveedor_esta_registrado(codigo_proveedor)
 
-            nombre_proveedor = input('Ingresa el nombre del proveedor: ')
-            ruc_proveedor = input('Ingresa el ruc del proveedor: ')
+                nombre_proveedor = input('Ingresa el nombre del proveedor: ')
+                ruc_proveedor = input('Ingresa el ruc del proveedor: ')
 
-            sistema.agregar_proveedor(Proveedor(codigo_proveedor, nombre_proveedor, ruc_proveedor))
-            print('Proveedor agregado al sistema correctamente')
+                sistema.agregar_proveedor(Proveedor(codigo_proveedor, nombre_proveedor, ruc_proveedor))
+                print('Proveedor agregado al sistema correctamente')
+            except DomainError as e:
+                print('-------------------')
+                print(e)
+                print('-------------------')
 
         elif opcion == 8:
             sistema.alerta_stock_minimo()
