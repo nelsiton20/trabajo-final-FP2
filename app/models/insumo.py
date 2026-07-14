@@ -1,3 +1,5 @@
+from app.domain.exceptions import StockInsumoInsuficiente
+
 class Insumo:
     def __init__(self, codigo, nombre, unidad, stock):
         self.__codigo = codigo
@@ -18,11 +20,9 @@ class Insumo:
         self.__stock = self.__stock + cantidad
 
     def retirar_stock(self, cantidad):
-        if cantidad <= self.__stock:
-            self.__stock = self.__stock - cantidad
-            return True
-        else:
-            return False
+        if cantidad > self.__stock:
+            raise StockInsumoInsuficiente()
+        self.__stock = self.__stock - cantidad
 
     def __str__(self):
         return f"Codigo: {self.__codigo} | Insumo: {self.__nombre} | Unidad: {self.__unidad} | Stock: {self.__stock}"
