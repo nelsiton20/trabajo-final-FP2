@@ -1,5 +1,5 @@
 class Proveedor:
-    def __init__(self, codigo, nombre, ruc):
+    def __init__(self, codigo: str, nombre: str, ruc: str):
         self.__codigo = codigo
         self.__nombre = nombre
         self.__ruc = ruc
