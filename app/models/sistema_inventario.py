@@ -11,10 +11,12 @@ class SistemaInventario:
         self.__movimientos = []
         self.__stock_minimo = stock_minimo
 
-    def agregar_insumo(self, insumo):
+    def agregar_insumo(self, insumo: Insumo):
+        self.producto_esta_registrado(insumo.get_codigo())
         self.__insumos.append(insumo)
 
-    def agregar_proveedor(self, proveedor):
+    def agregar_proveedor(self, proveedor: Proveedor):
+        self.proveedor_esta_registrado(proveedor.get_codigo())
         self.__proveedores.append(proveedor)
 
     def producto_esta_registrado(self, codigo: str) -> bool:
@@ -94,3 +96,13 @@ class SistemaInventario:
         for insumo in self.__insumos:
             if insumo.get_stock() <= self.__stock_minimo:
                 print(insumo)
+
+    def mostrar_valor_inventario(self):
+        valor_total = 0
+
+        for insumo in self.__insumos:
+            valor_total += insumo.get_stock() * insumo.get_precio()
+        
+        print('----------------------')
+        print(f'El valor total del inventario es: {valor_total}')
+        print('----------------------')

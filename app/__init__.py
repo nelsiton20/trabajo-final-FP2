@@ -13,9 +13,9 @@ def app():
     sistema.agregar_proveedor(proveedor1)
     sistema.agregar_proveedor(proveedor2)
 
-    insumo1 = Insumo("I001", "Pescado", "kg", 10)
-    insumo2 = Insumo("I002", "Arroz", "kg", 20)
-    insumo3 = Insumo("I003", "Nori", "caja", 5)
+    insumo1 = Insumo("I001", "Pescado", "kg", 10, 10.5)
+    insumo2 = Insumo("I002", "Arroz", "kg", 20, 5.5)
+    insumo3 = Insumo("I003", "Nori", "caja", 5, 3.2)
 
     sistema.agregar_insumo(insumo1)
     sistema.agregar_insumo(insumo2)
@@ -23,17 +23,18 @@ def app():
 
     opcion = 0
 
-    while opcion != 9:
+    while opcion != 10:
         print("\n------ SISTEMA DE INVENTARIO ------")
         print("1. Listar insumos")
         print("2. Listar proveedores")
-        print("3. Registrar ingreso")
-        print("4. Registrar salida")
-        print("5. Listar movimientos")
-        print('6. Registrar nuevo insumo a inventario')
-        print('7. Registrar nuevo proveedor')
-        print('8. Mostrar insumos en alerta')
-        print("9. Salir")
+        print("3. Mostrar valor del inventario")
+        print("4. Registrar ingreso")
+        print("5. Registrar salida")
+        print("6. Listar movimientos")
+        print('7. Registrar nuevo insumo a inventario')
+        print('8. Registrar nuevo proveedor')
+        print('9. Mostrar insumos en alerta')
+        print("10. Salir")
 
         opcion = int(input("Seleccione una opcion: "))
 
@@ -42,25 +43,28 @@ def app():
 
         elif opcion == 2:
             sistema.listar_proveedores()
-
+        
         elif opcion == 3:
+            sistema.mostrar_valor_inventario()
+
+        elif opcion == 4:
             codigo_insumo = input("Ingrese codigo del insumo: ")
             cantidad = int(input("Ingrese cantidad a ingresar: "))
             codigo_proveedor = input("Ingrese codigo del proveedor: ")
 
             sistema.registrar_ingreso(codigo_insumo, cantidad, codigo_proveedor)
 
-        elif opcion == 4:
+        elif opcion == 5:
             codigo_insumo = input("Ingrese codigo del insumo: ")
             cantidad = int(input("Ingrese cantidad a retirar: "))
             motivo = input("Ingrese motivo de salida: ")
 
             sistema.registrar_salida(codigo_insumo, cantidad, motivo)
 
-        elif opcion == 5:
+        elif opcion == 6:
             sistema.listar_movimientos()
         
-        elif opcion == 6:
+        elif opcion == 7:
             try:
                 codigo_insumo = input('Ingrese código del insumo: ')
                 
@@ -69,15 +73,16 @@ def app():
                 nombre_insumo = input('Ingresa nombre del insumo: ')
                 unidad_insumo = input('Ingrese unidad del insumo: ')
                 stock_insumo = input('Ingrese el stock del insumo: ')
+                precio_insumo = float(input('Ingresa el precio del insumo: '))
 
-                sistema.agregar_insumo(Insumo(codigo_insumo, nombre_insumo, unidad_insumo, stock_insumo))
+                sistema.agregar_insumo(Insumo(codigo_insumo, nombre_insumo, unidad_insumo, stock_insumo, precio_insumo))
                 print('Producto creado y agregado al inventario')
             except DomainError as e:
                 print('-------------------')
                 print(e)
                 print('-------------------')
 
-        elif opcion == 7:
+        elif opcion == 8:
             try:
                 codigo_proveedor = input('Ingrese el código del proveedor: ')
 
@@ -93,10 +98,10 @@ def app():
                 print(e)
                 print('-------------------')
 
-        elif opcion == 8:
+        elif opcion == 9:
             sistema.alerta_stock_minimo()
 
-        elif opcion == 9:
+        elif opcion == 10:
             print("Gracias por usar el sistema.")
 
         else:
