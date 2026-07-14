@@ -2,6 +2,7 @@ from app.models.ingreso import Ingreso
 from app.models.salida import Salida
 from app.models.proveedor import Proveedor
 from app.models.insumo import Insumo
+from app.domain.exceptions import InsumoNotFound, DomainError, ProveedorNotFound, InsumoYaExiste, ProveedorYaExiste
 
 class SistemaInventario:
     def __init__(self, stock_minimo: int):
@@ -19,53 +20,55 @@ class SistemaInventario:
     def producto_esta_registrado(self, codigo: str) -> bool:
         for insumo in self.__insumos:
             if insumo.get_codigo() == codigo:
-                return True
-        return False
+                raise InsumoYaExiste()
     
     def proveedor_esta_registrado(self, codigo: str) -> bool:
         for proveedor in self.__proveedores:
             if proveedor.get_codigo() == codigo:
-                return True
-        return False
+                raise ProveedorYaExiste()
     
     def buscar_insumo(self, codigo):
         for insumo in self.__insumos:
             if insumo.get_codigo() == codigo:
                 return insumo
-        return None
+        
+        raise InsumoNotFound()
 
     def buscar_proveedor(self, codigo):
         for proveedor in self.__proveedores:
             if proveedor.get_codigo() == codigo:
                 return proveedor
-        return None
+        raise ProveedorNotFound()
 
     def registrar_ingreso(self, codigo_insumo, cantidad, codigo_proveedor):
-        insumo = self.buscar_insumo(codigo_insumo)
-        proveedor = self.buscar_proveedor(codigo_proveedor)
+        try:
+            insumo = self.buscar_insumo(codigo_insumo)
+            proveedor = self.buscar_proveedor(codigo_proveedor)
 
-        if insumo != None and proveedor != None:
             ingreso = Ingreso(insumo, cantidad, proveedor)
             ingreso.realizar_movimiento()
             self.__movimientos.append(ingreso)
             print("Ingreso registrado correctamente.")
-        else:
-            print("No se encontro el insumo o proveedor.")
+        except DomainError as e:
+            print("--------------")
+            print(e)
+            print("--------------")
 
     def registrar_salida(self, codigo_insumo, cantidad, motivo):
-        insumo = self.buscar_insumo(codigo_insumo)
-
-        if insumo != None:
+        try:
+            insumo = self.buscar_insumo(codigo_insumo)
+            
+            if insumo is None:
+                raise InsumoNotFound()
+            
             salida = Salida(insumo, cantidad, motivo)
-            resultado = salida.realizar_movimiento()
-
-            if resultado == True:
-                self.__movimientos.append(salida)
-                print("Salida registrada correctamente.")
-            else:
-                print("No hay stock suficiente.")
-        else:
-            print("No se encontro el insumo.")
+            salida.realizar_movimiento()
+            self.__movimientos.append(salida)
+            print("Salida registrada correctamente.")
+        except DomainError as e:
+            print('----------------')
+            print(e)
+            print('----------------')
 
     def listar_insumos(self):
         print("\n--- LISTA DE INSUMOS ---")
