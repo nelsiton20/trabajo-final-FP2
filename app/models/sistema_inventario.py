@@ -11,10 +11,12 @@ class SistemaInventario:
         self.__movimientos = []
         self.__stock_minimo = stock_minimo
 
-    def agregar_insumo(self, insumo):
+    def agregar_insumo(self, insumo: Insumo):
+        self.producto_esta_registrado(insumo.get_codigo())
         self.__insumos.append(insumo)
 
-    def agregar_proveedor(self, proveedor):
+    def agregar_proveedor(self, proveedor: Proveedor):
+        self.proveedor_esta_registrado(proveedor.get_codigo())
         self.__proveedores.append(proveedor)
 
     def producto_esta_registrado(self, codigo: str) -> bool:
