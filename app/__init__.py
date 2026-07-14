@@ -13,9 +13,9 @@ def app():
     sistema.agregar_proveedor(proveedor1)
     sistema.agregar_proveedor(proveedor2)
 
-    insumo1 = Insumo("I001", "Pescado", "kg", 10)
-    insumo2 = Insumo("I002", "Arroz", "kg", 20)
-    insumo3 = Insumo("I003", "Nori", "caja", 5)
+    insumo1 = Insumo("I001", "Pescado", "kg", 10, 10.5)
+    insumo2 = Insumo("I002", "Arroz", "kg", 20, 5.5)
+    insumo3 = Insumo("I003", "Nori", "caja", 5, 3.2)
 
     sistema.agregar_insumo(insumo1)
     sistema.agregar_insumo(insumo2)
@@ -69,8 +69,9 @@ def app():
                 nombre_insumo = input('Ingresa nombre del insumo: ')
                 unidad_insumo = input('Ingrese unidad del insumo: ')
                 stock_insumo = input('Ingrese el stock del insumo: ')
+                precio_insumo = float(input('Ingresa el precio del insumo: '))
 
-                sistema.agregar_insumo(Insumo(codigo_insumo, nombre_insumo, unidad_insumo, stock_insumo))
+                sistema.agregar_insumo(Insumo(codigo_insumo, nombre_insumo, unidad_insumo, stock_insumo, precio_insumo))
                 print('Producto creado y agregado al inventario')
             except DomainError as e:
                 print('-------------------')
