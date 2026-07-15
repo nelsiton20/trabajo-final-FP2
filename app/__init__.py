@@ -72,7 +72,7 @@ def app():
 
                 nombre_insumo = input('Ingresa nombre del insumo: ')
                 unidad_insumo = input('Ingrese unidad del insumo: ')
-                stock_insumo = input('Ingrese el stock del insumo: ')
+                stock_insumo = int(input('Ingrese el stock del insumo: '))
                 precio_insumo = float(input('Ingresa el precio del insumo: '))
 
                 sistema.agregar_insumo(Insumo(codigo_insumo, nombre_insumo, unidad_insumo, stock_insumo, precio_insumo))

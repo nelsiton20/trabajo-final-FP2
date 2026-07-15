@@ -5,8 +5,8 @@ class Insumo:
         self.__codigo = codigo
         self.__nombre = nombre
         self.__unidad = unidad
-        self.__stock = stock
-        self.__precio = precio
+        self.__stock = int(stock)
+        self.__precio = float(precio)
 
     def get_codigo(self):
         return self.__codigo
